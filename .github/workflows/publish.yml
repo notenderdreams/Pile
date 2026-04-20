@@ -21,17 +21,15 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v3
 
-      - name: Install Node and NPM
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 18
-          cache: npm
+          bun-version: latest
 
       - name: Install and build
         run: |
-          npm install
-          npm run postinstall
-          npm run build
+          bun install
+          bun run build
 
       - name: Publish releases
         env:
@@ -43,4 +41,4 @@ jobs:
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm exec electron-builder -- --publish always --win --mac --linux
+          bun x electron-builder --publish always --win --mac --linux

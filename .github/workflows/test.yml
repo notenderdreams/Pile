@@ -14,21 +14,20 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
-      - name: Install Node.js and NPM
-        uses: actions/setup-node@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 18
-          cache: npm
+          bun-version: latest
 
-      - name: npm install
+      - name: bun install
         run: |
-          npm install
+          bun install
 
-      - name: npm test
+      - name: bun test
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run package
-          npm run lint
-          npm exec tsc
-          npm test
+          bun run package
+          bun run lint
+          bun x tsc
+          bun test
